@@ -12,6 +12,9 @@ function install_libvirt() {
   sed -i -e 's/#listen_tcp/listen_tcp/g' /etc/libvirt/libvirtd.conf
   sed -i -e 's/#auth_tcp = "sasl"/auth_tcp = "none"/g' /etc/libvirt/libvirtd.conf
   sed -i -e 's/#tcp_port/tcp_port/g' /etc/libvirt/libvirtd.conf
+  sed -i -e 's/#security_driver = "selinux"/security_driver = "none"/g' /etc/libvirt/qemu.conf
+
+
 }
 
 function install_runtime_container() {
@@ -38,4 +41,5 @@ install_runtime_container
 install_skipper
 systemctl restart libvirtd
 touch ~/.gitconfig
-setfacl -R -m u:qemu:rwx storage_pool
+#setfacl -R -m u:qemu:rwx storage_pool
+sudo chmod ugo+rx $(PWD)
