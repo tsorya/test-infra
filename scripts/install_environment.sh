@@ -38,3 +38,4 @@ install_runtime_container
 install_skipper
 systemctl restart libvirtd
 touch ~/.gitconfig
+setfacl -R -m u:qemu:rwx storage_pool
