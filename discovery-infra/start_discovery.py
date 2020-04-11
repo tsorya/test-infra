@@ -105,7 +105,7 @@ def main(pargs):
 
         cluster = client.create_cluster(consts.CLUSTER_PREFIX + str(uuid.uuid4()),
                                         ssh_public_key=get_ssh_key(pargs.ssh_key))
-        nodes_details["cluster_id"] = consts.CLUSTER_PREFIX + cluster.id
+        nodes_details["cluster_inventory_id"] = consts.CLUSTER_PREFIX + cluster.id
         client.download_image(cluster_id=cluster.id, image_path=consts.IMAGE_PATH)
 
     create_nodes_and_wait_till_registered(inventory_client=client,
