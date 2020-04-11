@@ -22,6 +22,8 @@ function install_runtime_container() {
   dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
 	dnf install docker-ce --nobest -y
 	systemctl enable --now docker
+elif [ -x "$(command -v podman)" ]; then
+  dnf install podman -y
 else
   echo "docker or podman is already installed"
 fi
@@ -42,4 +44,4 @@ install_skipper
 systemctl restart libvirtd
 touch ~/.gitconfig
 #setfacl -R -m u:qemu:rwx storage_pool
-sudo chmod ugo+rx $(PWD)
+chmod ugo+rx "$(dirname "$(pwd)")"
