@@ -11,8 +11,8 @@ import bm_inventory_api
 
 def try_to_delete_cluster(tfvars):
     try:
-        cluster_id = tfvars["cluster_id"].split(consts.CLUSTER_PREFIX)
-        if cluster_id and len(cluster_id) > 1:
+        cluster_id = tfvars.get("cluster_inventory_id")
+        if cluster_id:
             client = bm_inventory_api.create_client()
             client.delete_cluster(cluster_id=cluster_id[-1])
     # TODO add different exception validations
