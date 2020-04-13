@@ -45,7 +45,7 @@ def wait_till_nodes_are_ready(nodes_count):
 
 
 # Require wait_till_nodes_are_ready has finished and all nodes are up
-def get_libvirt_nodes_mac_role_address_ip_and_name():
+def get_libvirt_nodes_mac_role_ip_and_name():
     print("Get nodes macs and roles from libvirt")
     cmd = "%s %s" % (VIRSH_LEASES_COMMAND, consts.TEST_NETWORK)
     nodes_data = {}

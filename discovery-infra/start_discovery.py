@@ -64,7 +64,7 @@ def create_nodes_and_wait_till_registered(inventory_client, cluster, image_path,
 
 def set_hosts_roles(client, cluster_id):
     hosts = []
-    libvirt_macs = utils.get_libvirt_nodes_mac_address_ip_and_name()
+    libvirt_macs = utils.get_libvirt_nodes_mac_role_ip_and_name()
     inventory_hosts = client.get_cluster_hosts(cluster_id)
     assert len(libvirt_macs) == len(inventory_hosts)
     for host in inventory_hosts:
