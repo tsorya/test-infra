@@ -34,7 +34,7 @@ def delete_nodes(tfvars):
 
 def delete_all():
     print("Deleting all virsh resources")
-    virsh_cleanup.clean_virsh_resources(virsh_cleanup.DEFAULT_SKIP_LIST)
+    virsh_cleanup.clean_virsh_resources(virsh_cleanup.DEFAULT_SKIP_LIST, None)
 
 
 def main():
