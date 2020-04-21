@@ -25,8 +25,8 @@ def delete_nodes(tfvars):
         print("Start running terraform delete")
         cmd = "cd build/terraform/  && terraform destroy -auto-approve " \
               "-input=false -state=terraform.tfstate -state-out=terraform.tfstate -var-file=terraform.tfvars.json"
-        return utils.run_command_with_output(cmd)
-    except:
+        utils.run_command_with_output(cmd)
+    finally:
         virsh_cleanup.clean_virsh_resources(virsh_cleanup.DEFAULT_SKIP_LIST,
                                             [tfvars.get("cluster_name", consts.TEST_INFRA),
                                              tfvars.get("libvirt_network_name", consts.TEST_INFRA)])
