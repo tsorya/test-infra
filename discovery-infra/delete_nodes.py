@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 
-import os
 import argparse
-import json
 import consts
 import utils
 import virsh_cleanup
@@ -26,6 +24,8 @@ def delete_nodes(tfvars):
         cmd = "cd build/terraform/  && terraform destroy -auto-approve " \
               "-input=false -state=terraform.tfstate -state-out=terraform.tfstate -var-file=terraform.tfvars.json"
         utils.run_command_with_output(cmd)
+    except:
+        print("Failed to run terraform delete")
     finally:
         virsh_cleanup.clean_virsh_resources(virsh_cleanup.DEFAULT_SKIP_LIST,
                                             [tfvars.get("cluster_name", consts.TEST_INFRA),
@@ -41,10 +41,13 @@ def main():
     if args.delete_all:
         delete_all()
     else:
-        tfvars = utils.get_tfvars()
-        if not args.only_nodes:
-            try_to_delete_cluster(tfvars)
-        delete_nodes(tfvars)
+        try:
+            tfvars = utils.get_tfvars()
+            if not args.only_nodes:
+                try_to_delete_cluster(tfvars)
+            delete_nodes(tfvars)
+        except:
+            print("Failed to delete nodes")
 
 
 if __name__ == "__main__":
