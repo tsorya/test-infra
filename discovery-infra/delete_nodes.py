@@ -41,17 +41,14 @@ def main():
     if args.delete_all:
         delete_all()
     else:
-        if not os.path.exists(consts.TFVARS_JSON_FILE):
-            return
-        with open(consts.TFVARS_JSON_FILE) as _file:
-            tfvars = json.load(_file)
+        tfvars = utils.get_tfvars()
         if not args.only_nodes:
             try_to_delete_cluster(tfvars)
         delete_nodes(tfvars)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Run discovery flow')
+    parser = argparse.ArgumentParser(description='Run delete nodes flow')
     parser.add_argument('-n', '--only-nodes', help='Delete only nodes, without cluster', action="store_true")
     parser.add_argument('-a', '--delete-all', help='Delete only nodes, without cluster', action="store_true")
     args = parser.parse_args()
