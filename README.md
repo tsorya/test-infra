@@ -7,9 +7,15 @@ The idea is to deploy all relevant services in minikube and to spawn libvirt vms
 # Pre-requisites
 CentOS 8 or RHEL 8 host
 file system that supports d_type (see Troubleshooting section for more information)
-ideally on a bare metal host with at least 64G of RAM
-run as a user with passwordless sudo access or be ready to enter sudo password for prepare phase
-get a valid pull secret (json string) from https://cloud.redhat.com/openshift/install/pull-secret if you want to finish installation.(No need for without install flow)
+ideally on a bare metal host with at least 64G of RAM.
+
+Run as a user with passwordless sudo access or be ready to enter sudo password for prepare phase.
+
+Get a valid pull secret (json string) from https://cloud.redhat.com/openshift/install/pull-secret 
+if you want to finish installation.(No need for without install flow) and export it as
+```bash
+    export PULL_SECRET='<pull secret json>'
+```
 
 # Instructions
 
