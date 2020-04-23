@@ -31,6 +31,7 @@ The main problem with usage is that some make target requires "skipper" and some
 
 ## Full flow cases
 Full flow stages, please make sure no previous cluster is running(will rewrite its build files):
+    
     1. Start minikube if not started yet
     2. Deploy services for assisted deployment on minikube 
     3. Creating cluster in bm-inventory service
@@ -39,7 +40,9 @@ Full flow stages, please make sure no previous cluster is running(will rewrite i
     6. Waiting till nodes are up and registered in bm-inventory
     7. Setting nodes roles in bm-inventory by matching vm names (worker/master)
     8. Verifying all nodes have required hardware to start installation
-Ff required installation:
+
+If required installation:
+   
     9. Install nodes
     10.Download kubeconfig
 
