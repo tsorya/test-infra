@@ -13,6 +13,7 @@ function set_dns() {
 }
 
 function wait_for_cluster() {
+  CONFIG=()
   SLEEP=5
   # Timeout 60 minutes
   RETRIES=60*60/${SLEEP}
