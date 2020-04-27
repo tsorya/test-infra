@@ -20,7 +20,7 @@ function wait_for_cluster() {
   until [ $RETRIES -gt 0] || [ $(kubectl --kubeconfig=build/kubeconfig get nodes | grep master | grep -v NotReady | grep Ready | wc -l) -eq 3 ]; do
       sleep ${SLEEP}s
       RETRIES=$((RETRIES-1))
-      oc --config=build/kubeconfig get csr -ojson | jq -r '.items[] | select(.status == {} ) | .metadata.name' | xargs oc --config=build/kubeconfig adm certificate approve
+      oc --kubeconfig=build/kubeconfig get csr -ojson | jq -r '.items[] | select(.status == {} ) | .metadata.name' | xargs oc --kubeconfig=build/kubeconfig adm certificate approve
   done
   if [ $RETRIES -eq 0 ]; then
     echo "Timeout reached, cluster still is down"
@@ -40,9 +40,13 @@ function run() {
 }
 
 
+function run_skipper_make_command() {
+    /usr/local/bin/skipper make $1
+}
+
 
 function run_without_os_envs() {
-  /usr/local/bin/skipper make $1
+  run_skipper_make_command $1
   if [ "${SET_DNS:-"n"}" == "y" ]; then
     set_dns
   fi
