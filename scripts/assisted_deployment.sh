@@ -13,11 +13,19 @@ function set_dns() {
 }
 
 function wait_for_cluster() {
+  SLEEP=5
+  # Timeout 60 minutes
+  RETRIES=60 * 60 / 5
   echo "Waiting till we have 3 masters"
-  until [ $(kubectl --kubeconfig=build/kubeconfig get nodes | grep master | grep -v NotReady | grep Ready | wc -l) -eq 3 ]; do
-      sleep 5s
+  until [ $RETRIES -gt 0] || [ $(kubectl --kubeconfig=build/kubeconfig get nodes | grep master | grep -v NotReady | grep Ready | wc -l) -eq 3 ]; do
+      sleep $(SLEEP)s
+      $((RETRIES--))
       oc --config=build/kubeconfig get csr -ojson | jq -r '.items[] | select(.status == {} ) | .metadata.name' | xargs oc --config=build/kubeconfig adm certificate approve
   done
+  if [ $RETRIES -eq 0 ]; then
+    echo "Timeout reached, cluster still is down"
+    exit 1
+  fi
   echo "Got 3 ready masters"
   echo -e "$(kubectl --kubeconfig=build/kubeconfig get nodes)"
 }
@@ -27,9 +35,11 @@ function wait_for_cluster() {
 function run() {
   /usr/local/bin/skipper make $1 NUM_MASTERS=$NUM_MASTERS NUM_WORKERS=$NUM_WORKERS KUBECONFIG=$PWD/minikube_kubeconfig BASE_DOMAIN=$BASE_DOMAIN CLUSTER_NAME=$CLUSTER_NAME
   if [ "$1" = "run_full_flow_with_install" ]; then
-    timeout 60m bash -ce 'wait_for_cluster'
+    wait_for_cluster
   fi
 }
+
+
 
 function run_without_os_envs() {
   /usr/local/bin/skipper make $1
