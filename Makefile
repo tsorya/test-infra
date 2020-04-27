@@ -13,11 +13,13 @@ CONTAINER_COMMAND = $(shell if [ -x "$(shell command -v docker)" ];then echo "do
 CLUSTER_NAME := $(or $(CLUSTER_NAME),"test-infra-cluster")
 BASE_DOMAIN := $(or $(BASE_DOMAIN),"redhat")
 NETWORK_CIDR := $(or $(NETWORK_CIDR),"192.168.126.0/24")
-CLUSTER_ID := $(or $(CLUSTER_ID), "")
+CLUSTER_ID := $(or $(CLUSTER_ID),)
 IMAGE_TAG := latest
 IMAGE_NAME=test-infra
 IMAGE_REG_NAME=quay.io/itsoiref/$(IMAGE_NAME)
 NETWORK_NAME := $(or $(NETWORK_NAME), "test-infra-net")
+NETWORK_BRIDGE := $(or $(NETWORK_BRIDGE), "tt0")
+OPENSHIFT_VERSION := $(or $(OPENSHIFT_VERSION), "4.4")
 
 .PHONY: image_build run destroy start_minikube delete_minikube run destroy install_minikube deploy_bm_inventory create_environment delete_all_virsh_resources
 
@@ -80,10 +82,10 @@ install_cluster:
 	discovery-infra/install_cluster.py -id $(CLUSTER_ID)
 
 deploy_nodes_with_install:
-	discovery-infra/start_discovery.py -i $(IMAGE) -n $(NUM_MASTERS) -p $(STORAGE_POOL_PATH) -k '$(SSH_PUB_KEY)' -mm $(MASTER_MEMORY) -wm $(WORKER_MEMORY) -nw $(NUM_WORKERS) -ps '$(PULL_SECRET)' -bd $(BASE_DOMAIN) -cN $(CLUSTER_NAME) -vN $(NETWORK_CIDR) -nN $(NETWORK_NAME) -in
+	discovery-infra/start_discovery.py -i $(IMAGE) -n $(NUM_MASTERS) -p $(STORAGE_POOL_PATH) -k '$(SSH_PUB_KEY)' -mm $(MASTER_MEMORY) -wm $(WORKER_MEMORY) -nw $(NUM_WORKERS) -ps '$(PULL_SECRET)' -bd $(BASE_DOMAIN) -cN $(CLUSTER_NAME) -vN $(NETWORK_CIDR) -nN $(NETWORK_NAME) -nB $(NETWORK_BRIDGE) -ov $(OPENSHIFT_VERSION) -in
 
 deploy_nodes:
-	discovery-infra/start_discovery.py -i $(IMAGE) -n $(NUM_MASTERS) -p $(STORAGE_POOL_PATH) -k '$(SSH_PUB_KEY)' -mm $(MASTER_MEMORY) -wm $(WORKER_MEMORY) -nw $(NUM_WORKERS) -ps '$(PULL_SECRET)' -bd $(BASE_DOMAIN) -cN $(CLUSTER_NAME) -vN $(NETWORK_CIDR) -nN $(NETWORK_NAME)
+	discovery-infra/start_discovery.py -i $(IMAGE) -n $(NUM_MASTERS) -p $(STORAGE_POOL_PATH) -k '$(SSH_PUB_KEY)' -mm $(MASTER_MEMORY) -wm $(WORKER_MEMORY) -nw $(NUM_WORKERS) -ps '$(PULL_SECRET)' -bd $(BASE_DOMAIN) -cN $(CLUSTER_NAME) -vN $(NETWORK_CIDR) -nN $(NETWORK_NAME) -nB $(NETWORK_BRIDGE) -ov $(OPENSHIFT_VERSION)
 
 destroy_nodes:
 	discovery-infra/delete_nodes.py
