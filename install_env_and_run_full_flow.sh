@@ -8,4 +8,4 @@ source scripts/assisted_deployment.sh
 echo "Starting cluster"
 export SET_DNS="y"
 run_without_os_envs "run_full_flow_with_install"
-wait_for_cluster
+timeout 60m bash -ce 'wait_for_cluster'
