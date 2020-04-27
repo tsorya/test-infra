@@ -44,7 +44,7 @@ clean:
 install_minikube:
 	scripts/install_minikube.sh
 
-start_minikube: install_minikube
+start_minikube:
 	scripts/run_minikube.sh
 	eval $(minikube docker-env)
 

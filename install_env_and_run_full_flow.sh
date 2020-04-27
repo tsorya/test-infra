@@ -7,5 +7,5 @@ source scripts/assisted_deployment.sh
 
 echo "Starting cluster"
 export SET_DNS="y"
-run "run_full_flow_with_install"
+run_without_os_envs "run_full_flow_with_install"
 wait_for_cluster
