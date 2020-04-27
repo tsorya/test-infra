@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
+set -o pipefail
 
 source create_full_environment.sh
 source scripts/assisted_deployment.sh
