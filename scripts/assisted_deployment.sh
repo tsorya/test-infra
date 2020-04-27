@@ -17,7 +17,7 @@ function wait_for_cluster() {
   # Timeout 60 minutes
   RETRIES=60*60/${SLEEP}
   echo "Waiting till we have 3 masters"
-  until [ $RETRIES -gt 0] || [ $(kubectl --kubeconfig=build/kubeconfig get nodes | grep master | grep -v NotReady | grep Ready | wc -l) -eq 3 ]; do
+  until [ $RETRIES -gt 0 ] || [ $(kubectl --kubeconfig=build/kubeconfig get nodes | grep master | grep -v NotReady | grep Ready | wc -l) -eq 3 ]; do
       sleep ${SLEEP}s
       RETRIES=$((RETRIES-1))
       oc --kubeconfig=build/kubeconfig get csr -ojson | jq -r '.items[] | select(.status == {} ) | .metadata.name' | xargs oc --kubeconfig=build/kubeconfig adm certificate approve
