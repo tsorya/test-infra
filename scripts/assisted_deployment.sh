@@ -15,11 +15,11 @@ function set_dns() {
 function wait_for_cluster() {
   SLEEP=5
   # Timeout 60 minutes
-  RETRIES=60*60/5
+  RETRIES=60*60/${SLEEP}
   echo "Waiting till we have 3 masters"
   until [ $RETRIES -gt 0] || [ $(kubectl --kubeconfig=build/kubeconfig get nodes | grep master | grep -v NotReady | grep Ready | wc -l) -eq 3 ]; do
-      sleep $(SLEEP)s
-      $((RETRIES--))
+      sleep ${SLEEP}s
+      RETRIES=$((RETRIES-1))
       oc --config=build/kubeconfig get csr -ojson | jq -r '.items[] | select(.status == {} ) | .metadata.name' | xargs oc --config=build/kubeconfig adm certificate approve
   done
   if [ $RETRIES -eq 0 ]; then
