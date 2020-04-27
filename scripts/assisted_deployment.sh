@@ -8,6 +8,7 @@ function destroy_all() {
 
 function set_dns() {
   API_VIP=$(ip route show dev ${INSTALLER_IMAGE:-"tt0"} | cut -d\  -f7)
+  echo "" > /etc/NetworkManager/dnsmasq.d/openshift-${CLUSTER_NAME}.conf
   echo "server=/api.${CLUSTER_DOMAIN}/${API_VIP}" | sudo tee -a /etc/NetworkManager/dnsmasq.d/openshift-${CLUSTER_NAME}.conf
   sudo systemctl reload NetworkManager
 }
