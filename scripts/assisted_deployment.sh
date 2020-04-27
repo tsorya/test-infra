@@ -27,7 +27,7 @@ function wait_for_cluster() {
 function run() {
   /usr/local/bin/skipper make $1 NUM_MASTERS=$NUM_MASTERS NUM_WORKERS=$NUM_WORKERS KUBECONFIG=$PWD/minikube_kubeconfig BASE_DOMAIN=$BASE_DOMAIN CLUSTER_NAME=$CLUSTER_NAME
   if [ "$1" = "run_full_flow_with_install" ]; then
-    timeout 1h wait_for_cluster
+    timeout 60m bash -ce 'wait_for_cluster'
   fi
 }
 
