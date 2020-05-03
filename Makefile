@@ -101,7 +101,7 @@ deploy_nodes_with_install:
 	skipper make _deploy_nodes ADDITIONAL_PARMS=-in
 
 deploy_nodes:
-	skipper make _deploy_nodes_with_install 
+	skipper make _deploy_nodes
 
 destroy_nodes:
 	skipper run discovery-infra/delete_nodes.py
