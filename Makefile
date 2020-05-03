@@ -24,7 +24,7 @@ OPENSHIFT_VERSION := $(or $(OPENSHIFT_VERSION), "4.4")
 
 .EXPORT_ALL_VARIABLES:
 
-.PHONY: image_build run destroy start_minikube delete_minikube run destroy install_minikube deploy_bm_inventory create_environment delete_all_virsh_resources
+.PHONY: image_build run destroy start_minikube delete_minikube run destroy install_minikube deploy_bm_inventory create_environment delete_all_virsh_resources _download_iso _deploy_bm_inventory _deploy_nodes  _destroy_terraform
 
 
 image_build:
