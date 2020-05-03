@@ -147,9 +147,9 @@ redeploy_all_with_install: destroy  run_full_flow_with_install
 
 redeploy_all: destroy run_full_flow
 
-_download_iso: run
+_download_iso:
 	discovery-infra/start_discovery.py -k '$(SSH_PUB_KEY)'  -ps '$(PULL_SECRET)' -bd $(BASE_DOMAIN) -cN $(CLUSTER_NAME) -ov $(OPENSHIFT_VERSION) -iO
 
-download_iso:
+download_iso: run
 	skipper make _download_iso
 
