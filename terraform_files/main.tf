@@ -32,21 +32,6 @@ resource "libvirt_network" "net" {
 
   addresses = [var.machine_cidr]
 
-  dns {
-    local_only = true
-
-    dynamic "hosts" {
-      for_each = concat(
-      data.libvirt_network_dns_host_template.masters.*.rendered,
-      data.libvirt_network_dns_host_template.masters_int.*.rendered,
-      )
-      content {
-        hostname = hosts.value.hostname
-        ip       = hosts.value.ip
-      }
-    }
-  }
-
   autostart = true
 }
 
