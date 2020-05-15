@@ -164,5 +164,5 @@ deploy_bm_inventory_with_external_ip:
 download_iso_for_remote_use: deploy_bm_inventory_with_external_ip
 	/usr/local/bin/skipper make _download_iso
 
-deploy_ui: start_minikube
+deploy_ui: start_minikube kill_all_port_forwardings
 	scripts/deploy_ui.sh
