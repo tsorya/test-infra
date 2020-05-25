@@ -27,7 +27,7 @@ jobs:
         ln -s Dockerfile.bm-inventory Dockerfile
     - name: build bm-inventory client
       run: |
-        skipper make create_inventory_client
+        make create_inventory_client
     - name: Get release version
       id: get_version
       run: echo ::set-env name=GIT_REVISION::$(echo ${GITHUB_SHA})
