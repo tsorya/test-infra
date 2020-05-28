@@ -25,3 +25,9 @@ class NodeRoles:
 class NodesStatus:
     KNOWN = "known"
     INSTALLING = "installing"
+    INSTALLED = "installed"
+
+
+class ClusterStatus:
+    INSTALLED = "installed"
+
