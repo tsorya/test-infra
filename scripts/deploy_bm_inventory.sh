@@ -14,9 +14,6 @@ sudo firewall-cmd --zone=public --permanent --add-port=${INVENTORY_PORT}/tcp
 sudo firewall-cmd --zone=libvirt --permanent --add-port=${INVENTORY_PORT}/tcp
 sudo firewall-cmd --reload
 
-print_log "Rollout ${SERVICE_NAME}"
-kubectl rollout restart deployment/${SERVICE_NAME} -n assisted-installer
-
 print_log "Updating bm_inventory params"
 /usr/local/bin/skipper run discovery-infra/update_bm_inventory_cm.py
 /usr/local/bin/skipper run	"make -C bm-inventory/ deploy-all" ${SKIPPER_PARAMS}
