@@ -52,8 +52,9 @@ function get_main_ip() {
 }
 
 function install_bm_client() {
-   make create_inventory_client
-   cd build/bm-inventory-client && python3 setup.py sdist && pip3 install dist/bm-inventory-client-1.0.0.tar.gz
+  echo "Installing inventory client"
+  make create_inventory_client
+  cd build/bm-inventory-client && python3 setup.py sdist && pip3 install dist/bm-inventory-client-1.0.0.tar.gz
 }
 
 function wait_for_url_and_run() {
