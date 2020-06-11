@@ -1,5 +1,7 @@
 set -euo pipefail
 
+source utils.sh
+
 function install_libvirt() {
   if ! [ -x "$(command -v virsh)" ]; then
     echo "Installing libvirt..."
@@ -27,9 +29,21 @@ function install_runtime_container() {
   fi
 }
 
+function install_terraform() {
+  wget `wget https://www.terraform.io/downloads.html -q -O - | grep -oP "(https://releases.hashicorp.com/terraform/.*linux_amd64\.zip)(?=\")" | head -n 1` && unzip terraform*.zip -d /usr/bin/ && rm -rf terraform*.zip
+  wget https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz && tar -C /usr/local -xf go1.13.4.linux-amd64.tar.gz && rm -f go1.13.4.linux-amd64.tar.gz
+  mkdir -p ~/.terraform.d/plugins
+  go get -v -u github.com/dmacvicar/terraform-provider-libvirt && cd ~/.terraform.d/plugins && go build -a -v github.com/dmacvicar/terraform-provider-libvirt && rm -rf ~/go
+}
+
+function install_aws() {
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm -rf awscliv2.zip
+}
+
 function install_packages(){
-  dnf install -y make python3 git jq bash-completion xinetd
+  dnf install -y make python3 git jq bash-completion xinetd wget unzip
   systemctl enable --now xinetd
+  pip3 install --no-cache-dir -r requirements.txt
 }
 
 function install_skipper() {
@@ -42,4 +56,8 @@ install_runtime_container
 install_skipper
 systemctl restart libvirtd
 touch ~/.gitconfig
+install_terraform
+install_aws
+install_bm_client
+
 chmod ugo+rx "$(dirname "$(pwd)")"

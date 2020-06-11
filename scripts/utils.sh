@@ -51,6 +51,11 @@ function get_main_ip() {
     echo "$(ip route get 1 | sed 's/^.*src \([^ ]*\).*$/\1/;q')"
 }
 
+function install_bm_client() {
+   make create_inventory_client
+   cd build/bm-inventory-client && python3 setup.py sdist && pip3 install dist/bm-inventory-client-1.0.0.tar.gz
+}
+
 function wait_for_url_and_run() {
     RETRIES=15
     RETRIES=$((RETRIES))

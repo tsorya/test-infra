@@ -27,7 +27,7 @@ sudo scripts/install_environment.sh
 echo "Done installing"
 
 echo "Creating image"
-make image_build
+# make image_build
 echo "Done creating image"
 
 echo "Installing minikube and oc"
