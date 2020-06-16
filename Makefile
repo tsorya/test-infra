@@ -188,3 +188,10 @@ download_iso:
 
 download_iso_for_remote_use: deploy_bm_inventory
 	/usr/local/bin/skipper make _download_iso $(SKIPPER_PARAMS)
+
+########
+# Test #
+########
+
+test:
+	skipper run python3 -m pytest tests --verbose -s
