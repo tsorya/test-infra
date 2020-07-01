@@ -1,3 +1,7 @@
+# DEPRECATED
+moved to https://github.com/openshift/assisted-test-infra.git
+
+
 # Test-Infra
 This project deploys the OpenShift Assisted Installer in Minikube and spawns libvirt VMs that represent bare metal hosts.
 
